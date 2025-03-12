@@ -1,6 +1,22 @@
+import { useUnit } from 'effector-react'
 import React from 'react'
+import * as model from './model'
 
 const Page: React.FC = () => {
+    const [signIn] = useUnit([model.signInMutation.start])
+
+    const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+        e.preventDefault()
+
+        const formData = new FormData(e.target as HTMLFormElement)
+
+        const data = Object.fromEntries(
+            formData.entries()
+        ) as unknown as model.SignUpDto['user']
+
+        signIn({ user: data })
+    }
+
     return (
         <div className="auth-page">
             <div className="container page">
@@ -15,9 +31,10 @@ const Page: React.FC = () => {
                             <li>That email is already taken</li>
                         </ul>
 
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <fieldset className="form-group">
                                 <input
+                                    name="email"
                                     className="form-control form-control-lg"
                                     type="text"
                                     placeholder="Email"
@@ -25,6 +42,7 @@ const Page: React.FC = () => {
                             </fieldset>
                             <fieldset className="form-group">
                                 <input
+                                    name="password"
                                     className="form-control form-control-lg"
                                     type="password"
                                     placeholder="Password"
