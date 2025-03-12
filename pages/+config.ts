@@ -1,26 +1,26 @@
-import type { Config } from 'vike/types';
-import vikeReact from 'vike-react/config';
+import type { Config } from 'vike/types'
+import vikeReact from 'vike-react/config'
 
-import Head from '@layouts/HeadDefault';
-import Layout from '@layouts/LayoutDefault';
+import Head from '@layouts/HeadDefault'
+import Layout from '@layouts/LayoutDefault'
 
 // Default config (can be overridden by pages)
 export default {
-  Layout,
-  Head,
-  cacheControl: 'public, max-age=604800',
-  meta: {
-    // Event - fires on server side when the page gets initiated
-    pageInitiated: {
-      env: { client: false, server: true },
+    Layout,
+    Head,
+    cacheControl: 'public, max-age=604800',
+    meta: {
+        // Event - fires on server side when the page gets initiated
+        pageInitiated: {
+            env: { client: false, server: true },
+        },
+        // Event - fires on client side when the page started
+        pageStarted: {
+            env: { client: true, server: false },
+        },
     },
-    // Event - fires on client side when the page started
-    pageStarted: {
-      env: { client: true, server: false },
-    },
-  },
-  passToClient: ['scopeValues'],
-  title: 'Real World (valdiszz53 implementation)',
-  reactStrictMode: false,
-  extends: vikeReact,
-} satisfies Config;
+    passToClient: ['scopeValues'],
+    title: 'Real World (valdiszz53 implementation)',
+    reactStrictMode: false,
+    extends: vikeReact,
+} satisfies Config
