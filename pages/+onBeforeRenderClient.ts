@@ -9,6 +9,8 @@ export const onBeforeRenderClient = async (pageContext: PageContextClient) => {
     const scope = getScope(scopeValues)
 
     if (pageContext.isHydration) {
+        const { enableMocking } = await import('@/mock-server/browser')
+        enableMocking()
         await allSettled(appModel.appStarted, { scope })
     }
 }

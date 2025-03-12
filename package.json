@@ -12,10 +12,14 @@
   "keywords": [],
   "author": "",
   "dependencies": {
+    "@farfetched/core": "^0.13.1",
+    "@withease/contracts": "^1.1.0",
+    "axios": "^1.8.3",
     "clsx": "^2.1.1",
     "compression": "^1.8.0",
     "cookie-parser": "^1.4.7",
     "cross-fetch": "^4.1.0",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
     "effector": "^23.3.0",
     "effector-react": "^23.3.0",
@@ -42,6 +46,7 @@
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "globals": "^16.0.0",
+    "msw": "^2.7.3",
     "prettier": "^3.5.3",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2",
@@ -52,5 +57,10 @@
   },
   "overrides": {
     "esbuild": "^0.25.0"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

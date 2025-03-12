@@ -1,14 +1,54 @@
 import React from 'react'
+// import * as model from './model'
+import type { Article } from '@/shared/api/queries/articles'
+import { useData } from 'vike-react/useData'
+import dayjs from 'dayjs'
+
+import type { Data } from './+data'
+import { Link } from '@/shared/ui/Link'
+import { routes } from '@/shared/routing'
+
+const LIMIT = 5
 
 const Page: React.FC = () => {
+    const data = useData<Data>()
+
+    const pages = new Array(Math.ceil(data.articlesCount / LIMIT))
+        .fill(0)
+        .map((_, index) => index + 1)
+
+    const renderArticle = (article: Article) => {
+        return (
+            <ArticleRow
+                key={article.slug}
+                article={article}
+            />
+        )
+    }
+    const renderTag = (tag: string) => (
+        <Link
+            key={tag}
+            href="#"
+            className="tag-pill tag-default">
+            {tag}
+        </Link>
+    )
+
+    const renderPage = (page: number) => (
+        <li
+            key={page}
+            className="page-item active">
+            <Link
+                className="page-link"
+                href="">
+                {page}
+            </Link>
+        </li>
+    )
+
     return (
         <div className="home-page">
-            <div className="banner">
-                <div className="container">
-                    <h1 className="logo-font">conduit</h1>
-                    <p>A place to share your knowledge.</p>
-                </div>
-            </div>
+            <Banner />
 
             <div className="container page">
                 <div className="row">
@@ -31,94 +71,12 @@ const Page: React.FC = () => {
                                 </li>
                             </ul>
                         </div>
-
-                        <div className="article-preview">
-                            <div className="article-meta">
-                                <a href="/profile/eric-simons">
-                                    <img src="http://i.imgur.com/Qr71crq.jpg" />
-                                </a>
-                                <div className="info">
-                                    <a
-                                        href="/profile/eric-simons"
-                                        className="author">
-                                        Eric Simons
-                                    </a>
-                                    <span className="date">January 20th</span>
-                                </div>
-                                <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                                    <i className="ion-heart"></i> 29
-                                </button>
-                            </div>
-                            <a
-                                href="/article/how-to-build-webapps-that-scale"
-                                className="preview-link">
-                                <h1>How to build webapps that scale</h1>
-                                <p>This is the description for the post.</p>
-                                <span>Read more...</span>
-                                <ul className="tag-list">
-                                    <li className="tag-default tag-pill tag-outline">
-                                        realworld
-                                    </li>
-                                    <li className="tag-default tag-pill tag-outline">
-                                        implementations
-                                    </li>
-                                </ul>
-                            </a>
-                        </div>
-
-                        <div className="article-preview">
-                            <div className="article-meta">
-                                <a href="/profile/albert-pai">
-                                    <img src="http://i.imgur.com/N4VcUeJ.jpg" />
-                                </a>
-                                <div className="info">
-                                    <a
-                                        href="/profile/albert-pai"
-                                        className="author">
-                                        Albert Pai
-                                    </a>
-                                    <span className="date">January 20th</span>
-                                </div>
-                                <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                                    <i className="ion-heart"></i> 32
-                                </button>
-                            </div>
-                            <a
-                                href="/article/the-song-you"
-                                className="preview-link">
-                                <h1>
-                                    The song you won&apos;t ever stop singing.
-                                    No matter how hard you try.
-                                </h1>
-                                <p>This is the description for the post.</p>
-                                <span>Read more...</span>
-                                <ul className="tag-list">
-                                    <li className="tag-default tag-pill tag-outline">
-                                        realworld
-                                    </li>
-                                    <li className="tag-default tag-pill tag-outline">
-                                        implementations
-                                    </li>
-                                </ul>
-                            </a>
-                        </div>
-
-                        <ul className="pagination">
-                            <li className="page-item active">
-                                <a
-                                    className="page-link"
-                                    href="">
-                                    1
-                                </a>
-                            </li>
-                            <li className="page-item">
-                                <a
-                                    className="page-link"
-                                    href="">
-                                    2
-                                </a>
-                            </li>
-                        </ul>
+                        {data.articles.map(renderArticle)}
+                        {pages.length > 1 && (
+                            <ul className="pagination">
+                                {pages.map(renderPage)}
+                            </ul>
+                        )}
                     </div>
 
                     <div className="col-md-3">
@@ -126,50 +84,73 @@ const Page: React.FC = () => {
                             <p>Popular Tags</p>
 
                             <div className="tag-list">
-                                <a
-                                    href=""
-                                    className="tag-pill tag-default">
-                                    programming
-                                </a>
-                                <a
-                                    href=""
-                                    className="tag-pill tag-default">
-                                    javascript
-                                </a>
-                                <a
-                                    href=""
-                                    className="tag-pill tag-default">
-                                    emberjs
-                                </a>
-                                <a
-                                    href=""
-                                    className="tag-pill tag-default">
-                                    angularjs
-                                </a>
-                                <a
-                                    href=""
-                                    className="tag-pill tag-default">
-                                    react
-                                </a>
-                                <a
-                                    href=""
-                                    className="tag-pill tag-default">
-                                    mean
-                                </a>
-                                <a
-                                    href=""
-                                    className="tag-pill tag-default">
-                                    node
-                                </a>
-                                <a
-                                    href=""
-                                    className="tag-pill tag-default">
-                                    rails
-                                </a>
+                                {data.tags.map(renderTag)}
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    )
+}
+
+type ArticleRowProps = {
+    article: Article
+}
+
+const ArticleRow: React.FC<ArticleRowProps> = ({ article }) => {
+    const { author } = article
+    const profileLink = routes.profile.replace(':username', author.username)
+    const articleLink = routes.article.replace(':slug', article.slug)
+
+    return (
+        <div className="article-preview">
+            <div className="article-meta">
+                <Link href={profileLink}>
+                    <img src={author.image} />
+                </Link>
+                <div className="info">
+                    <Link
+                        href={profileLink}
+                        className="author">
+                        {author.username}
+                    </Link>
+                    <span className="date">
+                        {dayjs(article.updatedAt).format('MMMM D, YYYY')}
+                    </span>
+                </div>
+                <button className="btn btn-outline-primary btn-sm pull-xs-right">
+                    <i className="ion-heart"></i> {article.favoritesCount}
+                </button>
+            </div>
+            <Link
+                href={articleLink}
+                className="preview-link">
+                <h1>{article.title}</h1>
+                <p>{article.description}</p>
+                <span>Read more...</span>
+                <ul className="tag-list">
+                    {article.tagList.map((tag, index) => {
+                        return (
+                            <li
+                                key={index}
+                                className="tag-default tag-pill tag-outline">
+                                {tag}
+                            </li>
+                        )
+                    })}
+                </ul>
+            </Link>
+        </div>
+    )
+}
+
+const Banner: React.FC = () => {
+    return (
+        <div className="banner">
+            <div className="container">
+                <h1 className="logo-font">conduit</h1>
+                <p>A place to share your knowledge.</p>
             </div>
         </div>
     )

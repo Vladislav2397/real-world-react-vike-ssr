@@ -30,6 +30,11 @@ async function startServer() {
         app.use(devMiddleware)
     }
 
+    if (process.env.NODE_ENV !== 'production') {
+        const { enableMocking } = await import('./mock-server/node')
+        enableMocking()
+    }
+
     // attach vike middleware
     connectVike(app)
 
