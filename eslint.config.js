@@ -36,11 +36,8 @@ export default tseslint.config(
     },
     rules: {
       // common
-      semi: ['error', 'always'],
-      'arrow-parens': ['error', 'always'],
       'no-unused-vars': 'off',
       'comma-dangle': ['error', 'always-multiline'],
-      'comma-spacing': [2, { before: false, after: true }],
       'simple-import-sort/imports': [
         'error',
         {

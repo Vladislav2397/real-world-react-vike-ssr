@@ -20,7 +20,7 @@ export default {
     },
   },
   passToClient: ['scopeValues'],
-  title: 'My Vike App',
+  title: 'Real World (valdiszz53 implementation)',
   reactStrictMode: false,
   extends: vikeReact,
 } satisfies Config;

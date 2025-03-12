@@ -1,28 +1,28 @@
 .button {
-  height: 28px;
-  padding: 5px 15px;
-  border: none;
-  border-radius: 4px;
-  font-weight: bold;
-  background-color: #005177;
-  color: white;
+    height: 28px;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    background-color: #005177;
+    color: white;
 }
 
 .button:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .button:active {
-  background-color: #376077;
+    background-color: #376077;
 }
 
 .button:disabled {
-  background-color: #505657;
-  color: #8f8f8f;
-  cursor: not-allowed;
+    background-color: #505657;
+    color: #8f8f8f;
+    cursor: not-allowed;
 }
 
 .buttonSecondary {
-  background-color: white;
-  color: black;
+    background-color: white;
+    color: black;
 }
