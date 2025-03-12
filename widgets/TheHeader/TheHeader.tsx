@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from '@/shared/ui/Link'
+import { routes } from '@/shared/routing'
 
 export const TheHeader: React.FC = () => {
     return <Unauthenticated />
@@ -66,25 +68,25 @@ const Unauthenticated: React.FC = () => {
                 </a>
                 <ul className="nav navbar-nav pull-xs-right">
                     <li className="nav-item">
-                        <a
+                        <Link
                             className="nav-link active"
-                            href="/">
+                            href={routes.home}>
                             Home
-                        </a>
+                        </Link>
                     </li>
                     <li className="nav-item">
-                        <a
+                        <Link
                             className="nav-link"
-                            href="/login">
+                            href={routes.signIn}>
                             Sign in
-                        </a>
+                        </Link>
                     </li>
                     <li className="nav-item">
-                        <a
+                        <Link
                             className="nav-link"
-                            href="/register">
+                            href={routes.signUp}>
                             Sign up
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </div>

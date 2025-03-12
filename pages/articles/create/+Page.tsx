@@ -29,7 +29,7 @@ const Page: React.FC = () => {
                                 <fieldset className="form-group">
                                     <textarea
                                         className="form-control"
-                                        rows="8"
+                                        rows={8}
                                         placeholder="Write your article (in markdown)"></textarea>
                                 </fieldset>
                                 <fieldset className="form-group">

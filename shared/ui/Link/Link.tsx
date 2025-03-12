@@ -1,8 +1,12 @@
+import clsx from 'clsx'
 import React from 'react'
 import { usePageContext } from 'vike-react/usePageContext'
 
-export const Link: React.FC<{ href: string; children: string }> = ({
+export type LinkProps = { href: string; className?: string }
+
+export const Link: React.FC<React.PropsWithChildren<LinkProps>> = ({
     href,
+    className,
     children,
 }) => {
     const pageContext = usePageContext()
@@ -14,7 +18,7 @@ export const Link: React.FC<{ href: string; children: string }> = ({
     return (
         <a
             href={href}
-            className={isActive ? 'is-active' : undefined}>
+            className={clsx(isActive ? 'is-active' : undefined, className)}>
             {children}
         </a>
     )
