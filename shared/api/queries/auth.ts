@@ -6,7 +6,7 @@ const signUpResponseContract = z.obj({
         email: z.str,
         token: z.str,
         username: z.str,
-        bio: z.str,
+        bio: z.or(z.str, z.nothing),
         image: z.or(z.str, z.nothing),
     }),
 })
@@ -24,6 +24,13 @@ export const signUpMutation = createJsonMutation({
 })
 
 const signInResponseContract = signUpResponseContract
+export const signInResponseFailureContract = z.obj({
+    errors: z.obj({
+        email: z.or(z.arr(z.str), z.nothing),
+        password: z.or(z.arr(z.str), z.nothing),
+        Error: z.or(z.str, z.nothing),
+    }),
+})
 
 export const signInMutation = createJsonMutation({
     params: declareParams<SignInDto>(),
@@ -33,7 +40,7 @@ export const signInMutation = createJsonMutation({
         body: (params) => params,
     },
     response: {
-        contract: signUpResponseContract,
+        contract: signInResponseContract,
     },
 })
 

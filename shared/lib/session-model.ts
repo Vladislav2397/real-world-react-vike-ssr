@@ -1,5 +1,7 @@
-import { createStore, createEvent } from 'effector'
+import { createStore, createEvent, combine } from 'effector'
 
-const tokenReceived = createEvent<string>()
+export const tokenReceived = createEvent<string>()
 
 export const $token = createStore('').on(tokenReceived, (_, token) => token)
+
+export const $isAuthorized = combine($token, Boolean)

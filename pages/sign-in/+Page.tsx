@@ -3,18 +3,20 @@ import React from 'react'
 import * as model from './model'
 
 const Page: React.FC = () => {
-    const [signIn] = useUnit([model.signInMutation.start])
+    const [errors, resetErrors, signIn] = useUnit([
+        model.$errors,
+        model.errorReset,
+        model.signInButtonTriggered,
+    ])
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault()
 
         const formData = new FormData(e.target as HTMLFormElement)
 
-        const data = Object.fromEntries(
-            formData.entries()
-        ) as unknown as model.SignUpDto['user']
+        const data = Object.fromEntries(formData.entries())
 
-        signIn({ user: data })
+        signIn(data as { email: string; password: string })
     }
 
     return (
@@ -28,7 +30,9 @@ const Page: React.FC = () => {
                         </p>
 
                         <ul className="error-messages">
-                            <li>That email is already taken</li>
+                            {errors.map((error) => (
+                                <li key={error}>{error}</li>
+                            ))}
                         </ul>
 
                         <form onSubmit={handleSubmit}>
@@ -38,6 +42,7 @@ const Page: React.FC = () => {
                                     className="form-control form-control-lg"
                                     type="text"
                                     placeholder="Email"
+                                    onInput={resetErrors}
                                 />
                             </fieldset>
                             <fieldset className="form-group">
@@ -46,6 +51,7 @@ const Page: React.FC = () => {
                                     className="form-control form-control-lg"
                                     type="password"
                                     placeholder="Password"
+                                    onInput={resetErrors}
                                 />
                             </fieldset>
                             <button className="btn btn-lg btn-primary pull-xs-right">
