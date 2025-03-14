@@ -1,6 +1,14 @@
+import { useUnit } from 'effector-react'
 import React from 'react'
+import * as model from './model'
 
 const Page: React.FC = () => {
+    const [data, isLoading] = useUnit([model.$data, model.$isPending])
+
+    if (!data || isLoading) return null
+
+    const { profile } = data
+
     return (
         <div className="profile-page">
             <div className="user-info">
@@ -8,18 +16,14 @@ const Page: React.FC = () => {
                     <div className="row">
                         <div className="col-xs-12 col-md-10 offset-md-1">
                             <img
-                                src="http://i.imgur.com/Qr71crq.jpg"
+                                src={profile.image}
                                 className="user-img"
                             />
-                            <h4>Eric Simons</h4>
-                            <p>
-                                Cofounder @GoThinkster, lived in Aol's HQ for a
-                                few months, kinda looks like Peeta from the
-                                Hunger Games
-                            </p>
+                            <h4>{profile.username}</h4>
+                            <p>{profile.bio}</p>
                             <button className="btn btn-sm btn-outline-secondary action-btn">
                                 <i className="ion-plus-round"></i>
-                                &nbsp; Follow Eric Simons
+                                &nbsp; Follow {profile.username}
                             </button>
                             <button className="btn btn-sm btn-outline-secondary action-btn">
                                 <i className="ion-gear-a"></i>
@@ -107,8 +111,8 @@ const Page: React.FC = () => {
                                 href="/article/the-song-you"
                                 className="preview-link">
                                 <h1>
-                                    The song you won't ever stop singing. No
-                                    matter how hard you try.
+                                    The song you won&apos;t ever stop singing.
+                                    No matter how hard you try.
                                 </h1>
                                 <p>This is the description for the post.</p>
                                 <span>Read more...</span>

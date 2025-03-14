@@ -1,6 +1,7 @@
 import React from 'react'
 
 import './style.css'
+import './icons.css'
 import { TheHeader } from '@/widgets/TheHeader/TheHeader'
 import { TheFooter } from '@/widgets/TheFooter'
 

@@ -5,6 +5,6 @@ export const routes = {
     article: '/articles/:slug',
     createArticle: '/articles/create',
     editArticle: '/articles/:id/edit',
-    profile: '/profile/:username',
+    profile: '/profiles/:username',
     settings: '/settings',
 }
