@@ -1,6 +1,7 @@
 import React from 'react'
 import * as model from './model'
 import { useUnit } from 'effector-react'
+import { Link } from '@/shared/ui/Link'
 
 const Page: React.FC = () => {
     const [signUp] = useUnit([model.signUpMutation.start])
@@ -24,7 +25,7 @@ const Page: React.FC = () => {
                     <div className="col-md-6 offset-md-3 col-xs-12">
                         <h1 className="text-xs-center">Sign up</h1>
                         <p className="text-xs-center">
-                            <a href="/login">Have an account?</a>
+                            <Link href="/sign-in">Have an account?</Link>
                         </p>
 
                         <ul className="error-messages">

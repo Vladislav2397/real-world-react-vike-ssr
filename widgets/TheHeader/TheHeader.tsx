@@ -4,95 +4,116 @@ import { routes } from '@/shared/routing'
 import * as sessionModel from '@/shared/lib/session-model'
 import { useUnit } from 'effector-react'
 
+const userRoutes: Item[] = [
+    {
+        route: routes.home,
+        kind: 'default',
+        text: 'Home',
+    },
+    {
+        route: routes.createArticle,
+        kind: 'with-icon',
+        iconClass: 'ion-compose',
+        text: 'New Article',
+    },
+    {
+        route: routes.settings,
+        kind: 'with-icon',
+        iconClass: 'ion-gear-a',
+        text: 'Settings',
+    },
+    {
+        route: routes.profile,
+        kind: 'with-image',
+        src: '',
+        text: 'Eric Simons',
+    },
+]
+
+const guestRoutes: Item[] = [
+    {
+        route: routes.home,
+        kind: 'default',
+        text: 'Home',
+    },
+    {
+        route: routes.signIn,
+        kind: 'default',
+        text: 'Sign in',
+    },
+    {
+        route: routes.signUp,
+        kind: 'default',
+        text: 'Sign up',
+    },
+]
+
 export const TheHeader: React.FC = () => {
     const [isAuthorized] = useUnit([sessionModel.$isAuthorized])
 
     return (
         <nav className="navbar navbar-light">
-            {isAuthorized ? <Authenticated /> : <Unauthenticated />}
+            <div className="container">
+                <Link
+                    className="navbar-brand"
+                    href="/">
+                    conduit
+                </Link>
+                <List list={isAuthorized ? userRoutes : guestRoutes} />
+            </div>
         </nav>
     )
 }
 
-const Authenticated: React.FC = () => {
-    return (
-        <div className="container">
-            <a
-                className="navbar-brand"
-                href="/">
-                conduit
-            </a>
-            <ul className="nav navbar-nav pull-xs-right">
-                <li className="nav-item">
-                    <a
-                        className="nav-link active"
-                        href="/">
-                        Home
-                    </a>
-                </li>
-                <li className="nav-item">
-                    <a
-                        className="nav-link"
-                        href="/editor">
-                        {' '}
-                        <i className="ion-compose"></i>&nbsp;New Article{' '}
-                    </a>
-                </li>
-                <li className="nav-item">
-                    <a
-                        className="nav-link"
-                        href="/settings">
-                        {' '}
-                        <i className="ion-gear-a"></i>&nbsp;Settings{' '}
-                    </a>
-                </li>
-                <li className="nav-item">
-                    <a
-                        className="nav-link"
-                        href="/profile/eric-simons">
-                        <img
-                            src=""
-                            className="user-pic"
-                        />
-                        Eric Simons
-                    </a>
-                </li>
-            </ul>
-        </div>
-    )
-}
+type Item =
+    | {
+          route: string
+          text: string
+          kind: 'default'
+      }
+    | {
+          route: string
+          text: string
+          kind: 'with-icon'
+          iconClass: string
+      }
+    | {
+          route: string
+          text: string
+          kind: 'with-image'
+          src?: string
+      }
 
-const Unauthenticated: React.FC = () => {
+type ListProps = { list: Item[] }
+
+const List: React.FC<ListProps> = ({ list }) => {
     return (
-        <div className="container">
-            <a
-                className="navbar-brand"
-                href="/">
-                conduit
-            </a>
-            <ul className="nav navbar-nav pull-xs-right">
-                <li className="nav-item">
+        <ul className="nav navbar-nav pull-xs-right">
+            {list.map((item) => (
+                <li
+                    className="nav-item"
+                    key={item.text}>
                     <Link
-                        className="nav-link active"
-                        href={routes.home}>
-                        Home
+                        href={item.route}
+                        className="nav-link">
+                        {item.kind === 'with-icon' && (
+                            <>
+                                <i className={item.iconClass}></i>&nbsp;
+                            </>
+                        )}
+                        {item.kind === 'with-image' && (
+                            <>
+                                <img
+                                    src={item.src}
+                                    className="user-pic"
+                                />
+                                &nbsp;
+                            </>
+                        )}
+                        {item.text}
                     </Link>
                 </li>
-                <li className="nav-item">
-                    <Link
-                        className="nav-link"
-                        href={routes.signIn}>
-                        Sign in
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link
-                        className="nav-link"
-                        href={routes.signUp}>
-                        Sign up
-                    </Link>
-                </li>
-            </ul>
-        </div>
+            ))}
+        </ul>
     )
 }

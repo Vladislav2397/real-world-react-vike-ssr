@@ -1,6 +1,7 @@
 import { useUnit } from 'effector-react'
 import React from 'react'
 import * as model from './model'
+import { Link } from '@/shared/ui/Link'
 
 const Page: React.FC = () => {
     const [errors, resetErrors, signIn] = useUnit([
@@ -26,7 +27,7 @@ const Page: React.FC = () => {
                     <div className="col-md-6 offset-md-3 col-xs-12">
                         <h1 className="text-xs-center">Sign in</h1>
                         <p className="text-xs-center">
-                            <a href="/register">Need an account?</a>
+                            <Link href="/sign-up">Need an account?</Link>
                         </p>
 
                         <ul className="error-messages">

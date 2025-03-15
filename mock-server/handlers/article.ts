@@ -16,6 +16,11 @@ export const articleHandlers = [
             article: found,
         })
     }),
+    http.get('http://localhost:4100/api/articles/:slug/comments', () => {
+        return HttpResponse.json({
+            comments,
+        })
+    }),
     http.get('http://localhost:4100/api/tags', () => {
         return HttpResponse.json({
             tags: [
@@ -40,7 +45,7 @@ const articles = [
             id: 1,
             username: 'Admin',
             bio: 'lore ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
-            image: 'https://static.productionready.io/images/smiley-cyrus.jpg',
+            image: 'https://avatar.iran.liara.run/public',
         },
         tagList: ['dragon', 'coffee', 'nest'],
         favorited: false,
@@ -59,9 +64,24 @@ const articles = [
             id: 2,
             username: 'TestUser',
             bio: 'elit sed do e lore ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore',
-            image: 'https://static.productionready.io/images/smiley-cyrus.jpg',
+            image: 'https://avatar.iran.liara.run/public',
         },
         tagList: ['dragon'],
         favorited: false,
+    },
+]
+
+const comments = [
+    {
+        id: 1,
+        createdAt: '2016-02-18T03:22:56.637Z',
+        updatedAt: '2016-02-18T03:22:56.637Z',
+        body: 'It takes a Jacobian',
+        author: {
+            username: 'jake',
+            bio: 'I work at statefarm',
+            image: 'https://i.stack.imgur.com/xHWG8.jpg',
+            following: false,
+        },
     },
 ]
