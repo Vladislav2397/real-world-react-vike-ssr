@@ -1,4 +1,4 @@
-import { createJsonQuery } from '@farfetched/core'
+import { concurrency, createJsonQuery } from '@farfetched/core'
 import * as z from '@withease/contracts'
 
 const authorContract = z.obj({
@@ -41,6 +41,7 @@ export const getArticlesQuery = createJsonQuery({
         contract: getArticlesResponseContract,
     },
 })
+concurrency(getArticlesQuery, { strategy: 'TAKE_LATEST' })
 export const getTagsQuery = createJsonQuery({
     request: {
         url: 'http://localhost:8888/api/tags',
@@ -50,5 +51,6 @@ export const getTagsQuery = createJsonQuery({
         contract: getTagsResponseContract,
     },
 })
+concurrency(getTagsQuery, { strategy: 'TAKE_LATEST' })
 
 export type Article = z.UnContract<typeof articleContract>

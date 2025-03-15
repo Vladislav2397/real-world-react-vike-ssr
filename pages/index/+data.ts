@@ -6,14 +6,11 @@ import axios from 'axios'
 
 export const data = async () => {
     const dataResponse = (
-        await axios.get(
-            `${import.meta.env.API_HOST}/api/articles?limit=12&offset=0`
-        )
+        await axios.get(`http://localhost:4100/api/articles?limit=12&offset=0`)
     ).data
 
-    const tagsResponse = (
-        await axios.get(`${import.meta.env.API_HOST}/api/tags`)
-    ).data
+    const tagsResponse = (await axios.get(`http://localhost:4100/api/tags`))
+        .data
 
     if (!getArticlesResponseContract.isData(dataResponse)) {
         throw new Error('Invalid data')

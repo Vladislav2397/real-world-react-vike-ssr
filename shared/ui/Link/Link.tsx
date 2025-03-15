@@ -2,7 +2,10 @@ import clsx from 'clsx'
 import React from 'react'
 import { usePageContext } from 'vike-react/usePageContext'
 
-export type LinkProps = { href: string; className?: string }
+export type LinkProps = {
+    href: string
+    className?: string
+}
 
 export const Link: React.FC<React.PropsWithChildren<LinkProps>> = ({
     href,

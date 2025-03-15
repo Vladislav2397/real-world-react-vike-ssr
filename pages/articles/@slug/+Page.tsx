@@ -1,27 +1,38 @@
 import React from 'react'
+import { useData } from 'vike-react/useData'
+import type { Data } from './+data'
+import { routes } from '@/shared/routing'
 
 const Page: React.FC = () => {
+    const { article } = useData<Data>()
+    const { author } = article
+
+    const authorLink = routes.profile.replace(
+        ':username',
+        article.author.username
+    )
+
     return (
         <div className="article-page">
             <div className="banner">
                 <div className="container">
-                    <h1>How to build webapps that scale</h1>
+                    <h1>{article.title}</h1>
 
                     <div className="article-meta">
-                        <a href="/profile/eric-simons">
-                            <img src="http://i.imgur.com/Qr71crq.jpg" />
+                        <a href={authorLink}>
+                            <img src={author.image} />
                         </a>
                         <div className="info">
                             <a
-                                href="/profile/eric-simons"
+                                href={authorLink}
                                 className="author">
-                                Eric Simons
+                                {author.username}
                             </a>
                             <span className="date">January 20th</span>
                         </div>
                         <button className="btn btn-sm btn-outline-secondary">
                             <i className="ion-plus-round"></i>
-                            &nbsp; Follow Eric Simons{' '}
+                            &nbsp; Follow {author.username}{' '}
                             <span className="counter">(10)</span>
                         </button>
                         &nbsp;&nbsp;
@@ -43,22 +54,20 @@ const Page: React.FC = () => {
             <div className="container page">
                 <div className="row article-content">
                     <div className="col-md-12">
-                        <p>
-                            Web development technologies have evolved at an
-                            incredible clip over the past few years.
-                        </p>
+                        <p>{article.description}</p>
                         <h2 id="introducing-ionic">Introducing RealWorld.</h2>
                         <p>
                             It&apos;s a great solution for learning how other
                             frameworks work.
                         </p>
                         <ul className="tag-list">
-                            <li className="tag-default tag-pill tag-outline">
-                                realworld
-                            </li>
-                            <li className="tag-default tag-pill tag-outline">
-                                implementations
-                            </li>
+                            {article.tagList.map((tag, index) => (
+                                <li
+                                    key={index}
+                                    className="tag-default tag-pill tag-outline">
+                                    {tag}
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </div>
