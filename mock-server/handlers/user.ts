@@ -21,7 +21,7 @@ export const userHandlers = [
                 token: 'jwt.token.here',
                 username: 'jake',
                 bio: 'I work at statefarm',
-                image: null,
+                image: 'https://avatar.iran.liara.run/public',
             },
         })
     }),
@@ -45,7 +45,19 @@ export const userHandlers = [
                 token: 'jwt.token.here',
                 username: data.user.username,
                 bio: 'I work at statefarm',
-                image: null,
+                image: 'https://avatar.iran.liara.run/public',
+            },
+        })
+    }),
+    http.get('http://localhost:4100/api/profiles/:username', ({ params }) => {
+        const { username } = params
+
+        return HttpResponse.json({
+            profile: {
+                username: username,
+                bio: 'I work at statefarm',
+                image: 'https://avatar.iran.liara.run/public',
+                following: false,
             },
         })
     }),

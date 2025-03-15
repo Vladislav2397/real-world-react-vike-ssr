@@ -22,12 +22,6 @@ const userRoutes: Item[] = [
         iconClass: 'ion-gear-a',
         text: 'Settings',
     },
-    {
-        route: routes.profile,
-        kind: 'with-image',
-        src: '',
-        text: 'Eric Simons',
-    },
 ]
 
 const guestRoutes: Item[] = [
@@ -59,7 +53,7 @@ export const TheHeader: React.FC = () => {
                     href="/">
                     conduit
                 </Link>
-                <List list={isAuthorized ? userRoutes : guestRoutes} />
+                {isAuthorized ? <Authorized /> : <Unauthorized />}
             </div>
         </nav>
     )
@@ -116,4 +110,22 @@ const List: React.FC<ListProps> = ({ list }) => {
             ))}
         </ul>
     )
+}
+
+const Unauthorized: React.FC = () => {
+    return <List list={guestRoutes} />
+}
+
+const Authorized: React.FC = () => {
+    const list: Item[] = [
+        ...userRoutes,
+        {
+            route: routes.profile.replace(':username', 'admin'),
+            kind: 'with-image',
+            src: '',
+            text: 'Eric Simons',
+        },
+    ]
+
+    return <List list={list} />
 }

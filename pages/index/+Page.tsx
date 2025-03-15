@@ -1,12 +1,12 @@
 import React from 'react'
-// import * as model from './model'
-import type { Article } from '@/shared/api/queries/articles'
 import { useData } from 'vike-react/useData'
-import dayjs from 'dayjs'
+
+import { ArticlePreview } from '@/entities/article/ui/ArticlePreview'
+
+import type { Article } from '@/shared/api/queries/articles'
+import { Link } from '@/shared/ui/Link'
 
 import type { Data } from './+data'
-import { Link } from '@/shared/ui/Link'
-import { routes } from '@/shared/routing'
 
 const LIMIT = 5
 
@@ -19,7 +19,7 @@ const Page: React.FC = () => {
 
     const renderArticle = (article: Article) => {
         return (
-            <ArticleRow
+            <ArticlePreview
                 key={article.slug}
                 article={article}
             />
@@ -90,57 +90,6 @@ const Page: React.FC = () => {
                     </div>
                 </div>
             </div>
-        </div>
-    )
-}
-
-type ArticleRowProps = {
-    article: Article
-}
-
-const ArticleRow: React.FC<ArticleRowProps> = ({ article }) => {
-    const { author } = article
-    const profileLink = routes.profile.replace(':username', author.username)
-    const articleLink = routes.article.replace(':slug', article.slug)
-
-    return (
-        <div className="article-preview">
-            <div className="article-meta">
-                <Link href={profileLink}>
-                    <img src={author.image} />
-                </Link>
-                <div className="info">
-                    <Link
-                        href={profileLink}
-                        className="author">
-                        {author.username}
-                    </Link>
-                    <span className="date">
-                        {dayjs(article.updatedAt).format('MMMM D, YYYY')}
-                    </span>
-                </div>
-                <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                    <i className="ion-heart"></i> {article.favoritesCount}
-                </button>
-            </div>
-            <Link
-                href={articleLink}
-                className="preview-link">
-                <h1>{article.title}</h1>
-                <p>{article.description}</p>
-                <span>Read more...</span>
-                <ul className="tag-list">
-                    {article.tagList.map((tag, index) => {
-                        return (
-                            <li
-                                key={index}
-                                className="tag-default tag-pill tag-outline">
-                                {tag}
-                            </li>
-                        )
-                    })}
-                </ul>
-            </Link>
         </div>
     )
 }
