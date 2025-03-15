@@ -13,6 +13,7 @@
   "author": "",
   "dependencies": {
     "@farfetched/core": "^0.13.1",
+    "@tanstack/react-query": "^5.68.0",
     "@withease/contracts": "^1.1.0",
     "axios": "^1.8.3",
     "clsx": "^2.1.1",

@@ -1,105 +1,121 @@
 import React from 'react'
-import { useData } from 'vike-react/useData'
+import { navigate } from 'vike/client/router'
+import { useUnit } from 'effector-react'
+import clsx from 'clsx'
 
 import { ArticlePreview } from '@/entities/article/ui/ArticlePreview'
 
-import type { Article } from '@/shared/api/queries/articles'
 import { Link } from '@/shared/ui/Link'
 
-import type { Data } from './+data'
-
-const LIMIT = 5
+import * as model from './model'
 
 const Page: React.FC = () => {
-    const data = useData<Data>()
-
-    const pages = new Array(Math.ceil(data.articlesCount / LIMIT))
-        .fill(0)
-        .map((_, index) => index + 1)
-
-    const renderArticle = (article: Article) => {
-        return (
-            <ArticlePreview
-                key={article.slug}
-                article={article}
-            />
-        )
-    }
-    const renderTag = (tag: string) => (
-        <Link
-            key={tag}
-            href="#"
-            className="tag-pill tag-default">
-            {tag}
-        </Link>
-    )
-
-    const renderPage = (page: number) => (
-        <li
-            key={page}
-            className="page-item active">
-            <Link
-                className="page-link"
-                href="">
-                {page}
-            </Link>
-        </li>
-    )
-
     return (
         <div className="home-page">
-            <Banner />
+            <div className="banner">
+                <div className="container">
+                    <h1 className="logo-font">conduit</h1>
+                    <p>A place to share your knowledge.</p>
+                </div>
+            </div>
 
             <div className="container page">
                 <div className="row">
                     <div className="col-md-9">
-                        <div className="feed-toggle">
-                            <ul className="nav nav-pills outline-active">
-                                <li className="nav-item">
-                                    <a
-                                        className="nav-link"
-                                        href="">
-                                        Your Feed
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a
-                                        className="nav-link active"
-                                        href="">
-                                        Global Feed
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        {data.articles.map(renderArticle)}
-                        {pages.length > 1 && (
-                            <ul className="pagination">
-                                {pages.map(renderPage)}
-                            </ul>
-                        )}
+                        <Tabs />
+                        <Articles />
+                        <Pagination />
                     </div>
 
-                    <div className="col-md-3">
-                        <div className="sidebar">
-                            <p>Popular Tags</p>
-
-                            <div className="tag-list">
-                                {data.tags.map(renderTag)}
-                            </div>
-                        </div>
-                    </div>
+                    <Tags />
                 </div>
             </div>
         </div>
     )
 }
 
-const Banner: React.FC = () => {
+const Tabs: React.FC = () => {
+    const [tabs] = useUnit([model.$tabs])
+
     return (
-        <div className="banner">
-            <div className="container">
-                <h1 className="logo-font">conduit</h1>
-                <p>A place to share your knowledge.</p>
+        <div className="feed-toggle">
+            <ul className="nav nav-pills outline-active">
+                {tabs.map((tab) => (
+                    <li
+                        key={tab.key}
+                        className="nav-item">
+                        <div
+                            className={clsx(
+                                'nav-link',
+                                tab.isActive && 'active'
+                            )}
+                            onClick={() => navigate(`?tab=${tab.key}`)}>
+                            {tab.name}
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
+}
+
+const Articles: React.FC = () => {
+    const [articles] = useUnit([model.$articles])
+
+    return (
+        <>
+            {articles.map((article) => (
+                <ArticlePreview
+                    key={article.slug}
+                    article={article}
+                />
+            ))}
+        </>
+    )
+}
+
+const Pagination: React.FC = () => {
+    const [pages] = useUnit([model.$pages])
+
+    if (pages.length <= 1) {
+        return null
+    }
+
+    return (
+        <ul className="pagination">
+            {pages.map((page) => (
+                <li
+                    key={page}
+                    className="page-item active">
+                    <Link
+                        className="page-link"
+                        href="">
+                        {page}
+                    </Link>
+                </li>
+            ))}
+        </ul>
+    )
+}
+
+const Tags: React.FC = () => {
+    const [tags] = useUnit([model.$tags])
+
+    return (
+        <div className="col-md-3">
+            <div className="sidebar">
+                <p>Popular Tags</p>
+
+                <div className="tag-list">
+                    {tags.map((tag) => (
+                        <Link
+                            key={tag}
+                            href="#"
+                            className="tag-pill tag-default">
+                            {tag}
+                        </Link>
+                    ))}
+                </div>
             </div>
         </div>
     )

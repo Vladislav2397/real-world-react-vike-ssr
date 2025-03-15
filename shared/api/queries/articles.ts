@@ -34,7 +34,7 @@ export const getTagsResponseContract = z.obj({
 
 export const getArticlesQuery = createJsonQuery({
     request: {
-        url: 'http://localhost:8888/api/articles?limit=12&offset=0',
+        url: 'http://localhost:4100/api/articles?limit=12&offset=0',
         method: 'GET',
     },
     response: {
@@ -44,7 +44,7 @@ export const getArticlesQuery = createJsonQuery({
 concurrency(getArticlesQuery, { strategy: 'TAKE_LATEST' })
 export const getTagsQuery = createJsonQuery({
     request: {
-        url: 'http://localhost:8888/api/tags',
+        url: 'http://localhost:4100/api/tags',
         method: 'GET',
     },
     response: {
@@ -54,3 +54,7 @@ export const getTagsQuery = createJsonQuery({
 concurrency(getTagsQuery, { strategy: 'TAKE_LATEST' })
 
 export type Article = z.UnContract<typeof articleContract>
+export type GetArticlesResponse = z.UnContract<
+    typeof getArticlesResponseContract
+>
+export type GetTagsResponse = z.UnContract<typeof getTagsResponseContract>
