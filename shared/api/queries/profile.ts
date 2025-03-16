@@ -1,7 +1,15 @@
-import { concurrency, createJsonQuery, declareParams } from '@farfetched/core'
+import {
+    concurrency,
+    createJsonMutation,
+    createJsonQuery,
+    declareParams,
+    update,
+} from '@farfetched/core'
 import * as z from '@withease/contracts'
 import { baseURL } from '../config'
 import { $token } from '@/shared/lib/session-model'
+import urlcat from 'urlcat'
+import { getArticleQuery } from './articles'
 
 const getProfileResponseContract = z.obj({
     profile: z.obj({
@@ -23,7 +31,66 @@ export const getProfileQuery = createJsonQuery({
         contract: getProfileResponseContract,
     },
 })
-
 concurrency(getProfileQuery, { strategy: 'TAKE_LATEST' })
 
-type ProfileResponse = z.UnContract<typeof getProfileResponseContract>
+export type GetProfileResponse = z.UnContract<typeof getProfileResponseContract>
+
+export const followAuthorMutation = createJsonMutation({
+    params: declareParams<{ username: string }>(),
+    request: {
+        url: ({ username }) =>
+            urlcat('http://localhost:4100/api/profiles/:username/follow', {
+                username,
+            }),
+        method: 'POST',
+    },
+    response: {
+        contract: getProfileResponseContract,
+    },
+})
+export const unfollowAuthorMutation = createJsonMutation({
+    params: declareParams<{ username: string }>(),
+    request: {
+        url: ({ username }) =>
+            urlcat('http://localhost:4100/api/profiles/:username/follow', {
+                username,
+            }),
+        method: 'DELETE',
+    },
+    response: {
+        contract: getProfileResponseContract,
+    },
+})
+
+update(getArticleQuery, {
+    on: followAuthorMutation,
+    by: {
+        success: ({ mutation, query }) => ({
+            result: {
+                article: {
+                    ...query.result.article,
+                    author: {
+                        ...query.result.article.author,
+                        following: mutation.result.profile.following,
+                    },
+                },
+            },
+        }),
+    },
+})
+update(getArticleQuery, {
+    on: unfollowAuthorMutation,
+    by: {
+        success: ({ mutation, query }) => ({
+            result: {
+                article: {
+                    ...query.result.article,
+                    author: {
+                        ...query.result.article.author,
+                        following: mutation.result.profile.following,
+                    },
+                },
+            },
+        }),
+    },
+})

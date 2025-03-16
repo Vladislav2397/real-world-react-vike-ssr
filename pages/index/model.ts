@@ -1,4 +1,7 @@
-import { getArticlesQuery, getTagsQuery } from '@/shared/api/queries/articles'
+import {
+    getArticleListQuery,
+    getTagsQuery,
+} from '@/shared/api/queries/articles'
 import { attach, combine, createEvent, createStore, sample } from 'effector'
 import * as sessionModel from '@/shared/lib/session-model'
 import { navigate } from 'vike/client/router'
@@ -26,11 +29,11 @@ const navigateFx = attach({
 })
 
 export const $articles = combine(
-    getArticlesQuery.$data,
+    getArticleListQuery.$data,
     (data) => data?.articles ?? []
 )
 export const $articlesCount = combine(
-    getArticlesQuery.$data,
+    getArticleListQuery.$data,
     (data) => data?.articlesCount ?? 0
 )
 

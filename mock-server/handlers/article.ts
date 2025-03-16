@@ -1,4 +1,6 @@
+import { Article } from '@/shared/api/types'
 import { http, HttpResponse } from 'msw'
+import { delay } from '../config'
 
 export const articleHandlers = [
     http.get('http://localhost:4100/api/articles', ({ request }) => {
@@ -16,19 +18,25 @@ export const articleHandlers = [
             articlesCount: arr.length,
         })
     }),
+    http.get('http://localhost:4100/api/articles/feed', () => {
+        return HttpResponse.json({
+            articles: [],
+            articlesCount: 0,
+        })
+    }),
     http.get('http://localhost:4100/api/articles/:slug', ({ params }) => {
         const { slug } = params
 
         const found = articles.find((article) => article.slug === slug)
+
+        if (!found) return HttpResponse.json(null, { status: 404 })
 
         return HttpResponse.json({
             article: found,
         })
     }),
     http.get('http://localhost:4100/api/articles/:slug/comments', () => {
-        return HttpResponse.json({
-            comments,
-        })
+        return HttpResponse.json({ comments })
     }),
     http.get('http://localhost:4100/api/tags', () => {
         return HttpResponse.json({
@@ -37,24 +45,60 @@ export const articleHandlers = [
             ],
         })
     }),
+    http.post(
+        'http://localhost:4100/api/articles/:slug/favorite',
+        async ({ params }) => {
+            await delay()
+            const { slug } = params
+
+            const found = articles.find((article) => article.slug === slug)
+
+            if (!found) return HttpResponse.json(null, { status: 404 })
+
+            return HttpResponse.json({
+                article: {
+                    ...found,
+                    favorited: true,
+                },
+            })
+        }
+    ),
+    http.delete(
+        'http://localhost:4100/api/articles/:slug/favorite',
+        async ({ params }) => {
+            await delay()
+            const { slug } = params
+
+            const found = articles.find((article) => article.slug === slug)
+
+            if (!found) return HttpResponse.json(null, { status: 404 })
+
+            return HttpResponse.json({
+                article: {
+                    ...found,
+                    favorited: false,
+                },
+            })
+        }
+    ),
 ]
 
-const articles = [
+const articles: Article[] = [
     {
         id: 1,
         slug: 'how-to-train-your-dragon',
         title: 'How to train your dragon',
         description: 'Ever wonder how?',
-        body: 'It takes a Jacobian',
+        body: 'It a dragon',
         createdAt: '2025-03-12T17:09:25.478Z',
         updatedAt: '2025-03-12T17:09:25.478Z',
         favoritesCount: 2,
         authorId: 1,
         author: {
-            id: 1,
             username: 'Admin',
             bio: 'lore ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
             image: 'https://avatar.iran.liara.run/public',
+            following: false,
         },
         tagList: ['coffee'],
         favorited: false,
@@ -70,10 +114,10 @@ const articles = [
         favoritesCount: 1,
         authorId: 2,
         author: {
-            id: 2,
             username: 'TestUser',
             bio: 'elit sed do e lore ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore',
             image: 'https://avatar.iran.liara.run/public',
+            following: false,
         },
         tagList: ['dragon'],
         favorited: false,
@@ -89,10 +133,10 @@ const articles = [
         favoritesCount: 0,
         authorId: 2,
         author: {
-            id: 2,
             username: 'TestUser',
             bio: 'elit sed do e lore ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore',
             image: 'https://avatar.iran.liara.run/public',
+            following: false,
         },
         tagList: [],
         favorited: false,

@@ -1,4 +1,7 @@
-import { getArticlesQuery, getTagsQuery } from '@/shared/api/queries/articles'
+import {
+    getArticleListQuery,
+    getTagsQuery,
+} from '@/shared/api/queries/articles'
 import { createPageInit } from '@utils/effector'
 import { sample } from 'effector'
 import { $tab, $tag } from './model'
@@ -18,7 +21,7 @@ sample({
     clock: pageInitiated,
     source: { tab: $tab, tag: $tag },
     fn: (source) => source,
-    target: [getArticlesQuery.start, getTagsQuery.start],
+    target: [getArticleListQuery.start, getTagsQuery.start],
 })
 
 function validateQueryParams(params: { tag?: string; tab?: string }) {

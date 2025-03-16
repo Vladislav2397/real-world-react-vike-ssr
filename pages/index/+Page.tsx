@@ -69,6 +69,11 @@ const Articles: React.FC = () => {
 
     return (
         <>
+            {articles.length === 0 && (
+                <div className="article-preview">
+                    No articles are here... yet.
+                </div>
+            )}
             {articles.map((article) => (
                 <ArticlePreview
                     key={article.slug}
