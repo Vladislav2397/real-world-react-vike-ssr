@@ -1,10 +1,19 @@
 import { http, HttpResponse } from 'msw'
 
 export const articleHandlers = [
-    http.get('http://localhost:4100/api/articles', () => {
+    http.get('http://localhost:4100/api/articles', ({ request }) => {
+        let arr = [...articles]
+        const searchParams = new URLSearchParams(request.url)
+
+        const tag = searchParams.get('tag')
+
+        if (tag) {
+            arr = arr.filter((article) => article.tagList.includes(tag))
+        }
+
         return HttpResponse.json({
-            articles: articles,
-            articlesCount: articles.length,
+            articles: arr,
+            articlesCount: arr.length,
         })
     }),
     http.get('http://localhost:4100/api/articles/:slug', ({ params }) => {
@@ -47,7 +56,7 @@ const articles = [
             bio: 'lore ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
             image: 'https://avatar.iran.liara.run/public',
         },
-        tagList: ['dragon', 'coffee', 'nest'],
+        tagList: ['coffee'],
         favorited: false,
     },
     {
@@ -67,6 +76,25 @@ const articles = [
             image: 'https://avatar.iran.liara.run/public',
         },
         tagList: ['dragon'],
+        favorited: false,
+    },
+    {
+        id: 3,
+        slug: 'how-to-train-your-dragon-3',
+        title: 'How to train your dragon 3',
+        description: 'So toothless',
+        body: 'It a dragon',
+        createdAt: '2025-03-12T17:09:25.478Z',
+        updatedAt: '2025-03-12T17:09:25.478Z',
+        favoritesCount: 0,
+        authorId: 2,
+        author: {
+            id: 2,
+            username: 'TestUser',
+            bio: 'elit sed do e lore ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore',
+            image: 'https://avatar.iran.liara.run/public',
+        },
+        tagList: [],
         favorited: false,
     },
 ]

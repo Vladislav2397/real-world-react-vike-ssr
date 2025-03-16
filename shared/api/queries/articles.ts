@@ -1,4 +1,4 @@
-import { concurrency, createJsonQuery } from '@farfetched/core'
+import { concurrency, createJsonQuery, declareParams } from '@farfetched/core'
 import * as z from '@withease/contracts'
 
 const authorContract = z.obj({
@@ -33,8 +33,12 @@ export const getTagsResponseContract = z.obj({
 })
 
 export const getArticlesQuery = createJsonQuery({
+    params: declareParams<{ tag?: string; tab?: string }>(),
     request: {
-        url: 'http://localhost:4100/api/articles?limit=12&offset=0',
+        url: ({ tab, tag }) =>
+            'http://localhost:4100/api/articles?limit=12&offset=0'
+                .concat(tab ? `&tab=${tab}` : '')
+                .concat(tag ? `&tag=${tag}` : ''),
         method: 'GET',
     },
     response: {

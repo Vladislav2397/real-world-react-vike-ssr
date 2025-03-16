@@ -1,5 +1,4 @@
 import React from 'react'
-import { navigate } from 'vike/client/router'
 import { useUnit } from 'effector-react'
 import clsx from 'clsx'
 
@@ -35,25 +34,31 @@ const Page: React.FC = () => {
 }
 
 const Tabs: React.FC = () => {
-    const [tabs] = useUnit([model.$tabs])
+    const [tabs, update] = useUnit([model.$tabs, model.queryParamsUpdated])
 
     return (
         <div className="feed-toggle">
             <ul className="nav nav-pills outline-active">
-                {tabs.map((tab) => (
-                    <li
-                        key={tab.key}
-                        className="nav-item">
-                        <div
-                            className={clsx(
-                                'nav-link',
-                                tab.isActive && 'active'
-                            )}
-                            onClick={() => navigate(`?tab=${tab.key}`)}>
-                            {tab.name}
-                        </div>
-                    </li>
-                ))}
+                {tabs.map((tab) => {
+                    const onClickTab = () => {
+                        update({ tab: tab.key, tag: '' })
+                    }
+
+                    return (
+                        <li
+                            key={tab.key}
+                            className="nav-item">
+                            <div
+                                className={clsx(
+                                    'nav-link',
+                                    tab.isActive && 'active'
+                                )}
+                                onClick={onClickTab}>
+                                {tab.name}
+                            </div>
+                        </li>
+                    )
+                })}
             </ul>
         </div>
     )
@@ -99,7 +104,7 @@ const Pagination: React.FC = () => {
 }
 
 const Tags: React.FC = () => {
-    const [tags] = useUnit([model.$tags])
+    const [tags, update] = useUnit([model.$tags, model.queryParamsUpdated])
 
     return (
         <div className="col-md-3">
@@ -108,12 +113,12 @@ const Tags: React.FC = () => {
 
                 <div className="tag-list">
                     {tags.map((tag) => (
-                        <Link
+                        <div
                             key={tag}
-                            href="#"
+                            onClick={() => update({ tag, tab: 'tag' })}
                             className="tag-pill tag-default">
                             {tag}
-                        </Link>
+                        </div>
                     ))}
                 </div>
             </div>
