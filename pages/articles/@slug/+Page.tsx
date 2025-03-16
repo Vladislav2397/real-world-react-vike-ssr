@@ -8,13 +8,11 @@ import { CommentView } from '@/entities/article/ui/CommentView'
 import { ArticleMeta } from '@/entities/article/ui/ArticleMeta'
 
 import * as model from './model'
+import { Link } from '@/shared/ui/Link'
+import { routes } from '@/shared/routing'
 
 const Page: React.FC = () => {
-    const [article, comments, isAuthorized] = useUnit([
-        model.$article,
-        model.$comments,
-        model.$isAuthorized,
-    ])
+    const [article, comments] = useUnit([model.$article, model.$comments])
 
     if (!article) return null
     if (!comments) return null
@@ -75,7 +73,7 @@ const Page: React.FC = () => {
 
                 <div className="row">
                     <div className="col-xs-12 col-md-8 offset-md-2">
-                        {isAuthorized && <AddCommentForm />}
+                        <AddCommentForm />
 
                         {comments.map((comment) => (
                             <CommentView
@@ -91,6 +89,15 @@ const Page: React.FC = () => {
 }
 
 const AddCommentForm: React.FC = () => {
+    const [isAuthorized] = useUnit([model.$isAuthorized])
+
+    if (!isAuthorized)
+        return (
+            <p>
+                Please <Link href={routes.signIn}>sign in</Link> or{' '}
+                <Link href={routes.signUp}>sign up</Link> to add a comment.
+            </p>
+        )
     return (
         <form className="card comment-form">
             <div className="card-block">

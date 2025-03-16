@@ -1,3 +1,3 @@
-import { createPageStart } from '@utils/effector'
+import { createPageInit } from '@utils/effector'
 
-export const pageInitiated = createPageStart()
+export const pageInitiated = createPageInit()

@@ -157,6 +157,41 @@ export const unfavoriteArticleMutation = createJsonMutation({
 })
 export type UnfavoriteArticleResponse = GetArticleResponse
 
+export type CreateArticleDto = {
+    title: string
+    description: string
+    body: string
+    tagList?: string[]
+}
+export const createArticleMutation = createJsonMutation({
+    params: declareParams<CreateArticleDto>(),
+    request: {
+        url: 'http://localhost:4100/api/articles',
+        method: 'POST',
+        body: (params) => params,
+    },
+    response: {
+        contract: getArticleResponseContract,
+    },
+})
+export type CreateArticleMutation = GetArticleResponse
+
+export type UpdateArticleDto = Partial<CreateArticleDto>
+
+export const updateArticleMutation = createJsonMutation({
+    params: declareParams<UpdateArticleDto & { slug: string }>(),
+    request: {
+        url: ({ slug }) =>
+            urlcat('http://localhost:4100/api/articles/:slug', { slug }),
+        method: 'PUT',
+        body: (params) => params,
+    },
+    response: {
+        contract: getArticleResponseContract,
+    },
+})
+export type UpdateArticleResponse = GetArticleResponse
+
 update(getArticleQuery, {
     on: favoriteArticleMutation,
     by: {

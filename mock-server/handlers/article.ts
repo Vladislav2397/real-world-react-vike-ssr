@@ -1,4 +1,4 @@
-import { Article } from '@/shared/api/types'
+import type { Article, CreateArticleDto } from '@/shared/api/types'
 import { http, HttpResponse } from 'msw'
 import { delay } from '../config'
 
@@ -76,6 +76,68 @@ export const articleHandlers = [
             return HttpResponse.json({
                 article: {
                     ...found,
+                    favorited: false,
+                },
+            })
+        }
+    ),
+    http.post<object, CreateArticleDto>(
+        'http://localhost:4100/api/articles',
+        async ({ request }) => {
+            await delay()
+            const data = await request.json()
+
+            const date = new Date().toISOString()
+
+            return HttpResponse.json({
+                article: {
+                    id: 10,
+                    slug: 'how-to-train-your-dragon',
+                    title: data.title,
+                    description: data.description,
+                    body: data.body,
+                    createdAt: date,
+                    updatedAt: date,
+                    favoritesCount: 2,
+                    authorId: 1,
+                    author: {
+                        username: 'Admin',
+                        bio: 'lore ipsum dolor sit',
+                        image: 'https://avatar.iran.liara.run/public',
+                        following: false,
+                    },
+                    tagList: data.tagList ?? [],
+                    favorited: false,
+                },
+            })
+        }
+    ),
+    http.put<object, CreateArticleDto>(
+        'http://localhost:4100/api/articles',
+        async ({ request }) => {
+            await delay()
+            const data = await request.json()
+
+            const date = new Date().toISOString()
+
+            return HttpResponse.json({
+                article: {
+                    id: 10,
+                    slug: 'how-to-train-your-dragon',
+                    title: data.title,
+                    description: data.description,
+                    body: data.body,
+                    createdAt: '2025-03-12T17:09:25.478Z',
+                    updatedAt: date,
+                    favoritesCount: 2,
+                    authorId: 1,
+                    author: {
+                        username: 'Admin',
+                        bio: 'lore ipsum dolor sit',
+                        image: 'https://avatar.iran.liara.run/public',
+                        following: false,
+                    },
+                    tagList: data.tagList ?? [],
                     favorited: false,
                 },
             })
