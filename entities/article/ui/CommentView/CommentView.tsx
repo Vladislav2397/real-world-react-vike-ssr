@@ -2,9 +2,11 @@ import React from 'react'
 import { AuthorView } from '../AuthorView'
 import { Comment } from '@/shared/api/types'
 
-export type CommentViewProps = {}
+export type CommentViewProps = { comment: Comment }
 
-export const CommentView: React.FC<{ comment: Comment }> = ({ comment }) => {
+export const CommentView: React.FC<
+    React.PropsWithChildren<CommentViewProps>
+> = ({ comment, children }) => {
     return (
         <div className="card">
             <div className="card-block">
@@ -12,8 +14,9 @@ export const CommentView: React.FC<{ comment: Comment }> = ({ comment }) => {
             </div>
             <AuthorView
                 className="card-footer"
-                author={comment.author}
-            />
+                author={comment.author}>
+                {children}
+            </AuthorView>
         </div>
     )
 }

@@ -1,4 +1,8 @@
-import type { Article, CreateArticleDto } from '@/shared/api/types'
+import type {
+    Article,
+    CreateArticleCommentDto,
+    CreateArticleDto,
+} from '@/shared/api/types'
 import { http, HttpResponse } from 'msw'
 import { delay } from '../config'
 
@@ -141,6 +145,45 @@ export const articleHandlers = [
                     favorited: false,
                 },
             })
+        }
+    ),
+    http.post<object, CreateArticleCommentDto>(
+        'http://localhost:4100/api/articles/:slug/comments',
+        async ({ request }) => {
+            await delay()
+            const data = await request.json()
+
+            const date = new Date().toISOString()
+
+            return HttpResponse.json({
+                comment: {
+                    id: 1,
+                    createdAt: date,
+                    updatedAt: date,
+                    body: data.comment.body,
+                    author: {
+                        username: 'jake',
+                        bio: 'I work at statefarm',
+                        image: 'https://i.stack.imgur.com/xHWG8.jpg',
+                        following: false,
+                    },
+                },
+            })
+        }
+    ),
+    http.delete(
+        'http://localhost:4100/api/articles/:slug/comments/:commentId',
+        async ({ params }) => {
+            await delay()
+            const { commentId } = params
+
+            if (!commentId) return HttpResponse.json(null, { status: 400 })
+
+            const found = comments.find((item) => item.id === +commentId)
+
+            if (!found) return HttpResponse.json(null, { status: 404 })
+
+            return HttpResponse.json(null, { status: 204 })
         }
     ),
 ]

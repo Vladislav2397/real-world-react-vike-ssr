@@ -13,3 +13,9 @@ export const $isAuthorized = combine($token, Boolean)
 // })
 
 // persist({ store: $token, key: 'real-world/v1/token' })
+
+export const sessionModel = {
+    tokenReceived,
+    $token,
+    $isAuthorized,
+}

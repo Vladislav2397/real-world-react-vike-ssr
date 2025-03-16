@@ -3,7 +3,6 @@ import {
     createJsonMutation,
     createJsonQuery,
     declareParams,
-    update,
 } from '@farfetched/core'
 import * as z from '@withease/contracts'
 import urlcat from 'urlcat'
@@ -192,29 +191,75 @@ export const updateArticleMutation = createJsonMutation({
 })
 export type UpdateArticleResponse = GetArticleResponse
 
-update(getArticleQuery, {
-    on: favoriteArticleMutation,
-    by: {
-        success: ({ mutation, query }) => ({
-            result: {
-                article: {
-                    ...query.result.article,
-                    favorited: mutation.result.article.favorited,
-                },
-            },
-        }),
+export type CreateArticleCommentDto = {
+    comment: {
+        body: string
+    }
+}
+
+const createCommentResponseContract = z.obj({
+    comment: commentContract,
+})
+
+export const createCommentMutation = createJsonMutation({
+    params: declareParams<CreateArticleCommentDto & { slug: string }>(),
+    request: {
+        url: ({ slug }) =>
+            urlcat('http://localhost:4100/api/articles/:slug/comments', {
+                slug,
+            }),
+        method: 'POST',
+        body: (params) => params,
+    },
+    response: {
+        contract: createCommentResponseContract,
     },
 })
-update(getArticleQuery, {
-    on: unfavoriteArticleMutation,
-    by: {
-        success: ({ mutation, query }) => ({
-            result: {
-                article: {
-                    ...query.result.article,
-                    favorited: mutation.result.article.favorited,
-                },
-            },
-        }),
+export type CreateCommentResponse = z.UnContract<
+    typeof createCommentResponseContract
+>
+
+export const removeCommentMutation = createJsonMutation({
+    params: declareParams<{ slug: string; id: number }>(),
+    request: {
+        url: ({ slug, id }) =>
+            urlcat('http://localhost:4100/api/articles/:slug/comments/:id', {
+                slug,
+                id,
+            }),
+        method: 'DELETE',
+    },
+    response: {
+        contract: z.nothing,
     },
 })
+export type RemoveCommentResponse = z.UnContract<
+    typeof createCommentResponseContract
+>
+
+// update(getArticleQuery, {
+//     on: favoriteArticleMutation,
+//     by: {
+//         success: ({ mutation, query }) => ({
+//             result: {
+//                 article: {
+//                     ...query.result.article,
+//                     favorited: mutation.result.article.favorited,
+//                 },
+//             },
+//         }),
+//     },
+// })
+// update(getArticleQuery, {
+//     on: unfavoriteArticleMutation,
+//     by: {
+//         success: ({ mutation, query }) => ({
+//             result: {
+//                 article: {
+//                     ...query.result.article,
+//                     favorited: mutation.result.article.favorited,
+//                 },
+//             },
+//         }),
+//     },
+// })

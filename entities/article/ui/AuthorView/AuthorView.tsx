@@ -8,9 +8,10 @@ export type AuthorViewProps = {
     className?: string
 }
 
-export const AuthorView: React.FC<AuthorViewProps> = ({
+export const AuthorView: React.FC<React.PropsWithChildren<AuthorViewProps>> = ({
     author,
     className,
+    children,
 }) => {
     const link = routes.profile.replace(':username', author.username)
 
@@ -20,7 +21,7 @@ export const AuthorView: React.FC<AuthorViewProps> = ({
                 href={link}
                 className="comment-author">
                 <img
-                    src={author.image}
+                    src={author.image ?? ''}
                     className="comment-author-img"
                 />
             </Link>
@@ -31,9 +32,7 @@ export const AuthorView: React.FC<AuthorViewProps> = ({
                 {author.username}
             </Link>
             <span className="date-posted">Dec 29th</span>
-            <span className="mod-options">
-                <i className="ion-trash-a"></i>
-            </span>
+            {children}
         </div>
     )
 }

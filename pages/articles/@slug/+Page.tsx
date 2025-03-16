@@ -8,8 +8,8 @@ import { CommentView } from '@/entities/article/ui/CommentView'
 import { ArticleMeta } from '@/entities/article/ui/ArticleMeta'
 
 import * as model from './model'
-import { Link } from '@/shared/ui/Link'
-import { routes } from '@/shared/routing'
+import { AddCommentForm } from '@/features/article/AddCommentForm'
+import { RemoveCommentButton } from '@/features/article/RemoveCommentButton'
 
 const Page: React.FC = () => {
     const [article, comments] = useUnit([model.$article, model.$comments])
@@ -73,47 +73,22 @@ const Page: React.FC = () => {
 
                 <div className="row">
                     <div className="col-xs-12 col-md-8 offset-md-2">
-                        <AddCommentForm />
+                        <AddCommentForm article={article} />
 
                         {comments.map((comment) => (
                             <CommentView
                                 key={comment.id}
-                                comment={comment}
-                            />
+                                comment={comment}>
+                                <RemoveCommentButton
+                                    article={article}
+                                    comment={comment}
+                                />
+                            </CommentView>
                         ))}
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
-
-const AddCommentForm: React.FC = () => {
-    const [isAuthorized] = useUnit([model.$isAuthorized])
-
-    if (!isAuthorized)
-        return (
-            <p>
-                Please <Link href={routes.signIn}>sign in</Link> or{' '}
-                <Link href={routes.signUp}>sign up</Link> to add a comment.
-            </p>
-        )
-    return (
-        <form className="card comment-form">
-            <div className="card-block">
-                <textarea
-                    className="form-control"
-                    placeholder="Write a comment..."
-                    rows={3}></textarea>
-            </div>
-            <div className="card-footer">
-                <img
-                    src="http://i.imgur.com/Qr71crq.jpg"
-                    className="comment-author-img"
-                />
-                <button className="btn btn-sm btn-primary">Post Comment</button>
-            </div>
-        </form>
     )
 }
 
