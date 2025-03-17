@@ -1,11 +1,22 @@
 import React from 'react'
-import { useData } from 'vike-react/useData'
-import type { Data } from './+data'
+import { useUnit } from 'effector-react'
+
 import { ArticlePreview } from '@/entities/article/ui/ArticlePreview'
-import { Article } from '@/shared/api/queries/articles'
+
+import type { Article } from '@/shared/api/types'
+
+import * as model from './model'
 
 const Page: React.FC = () => {
-    const { profile, articles } = useData<Data>()
+    const [profile, articles, update] = useUnit([
+        model.$profile,
+        model.$articles,
+        model.updateQueryParams,
+    ])
+
+    if (!profile) return null
+
+    console.log(profile)
 
     const renderArticle = (article: Article) => {
         return (
@@ -47,18 +58,22 @@ const Page: React.FC = () => {
                         <div className="articles-toggle">
                             <ul className="nav nav-pills outline-active">
                                 <li className="nav-item">
-                                    <a
+                                    <div
                                         className="nav-link active"
-                                        href="">
+                                        onClick={() =>
+                                            update({ favorited: false })
+                                        }>
                                         My Articles
-                                    </a>
+                                    </div>
                                 </li>
                                 <li className="nav-item">
-                                    <a
+                                    <div
                                         className="nav-link"
-                                        href="">
+                                        onClick={() =>
+                                            update({ favorited: true })
+                                        }>
                                         Favorited Articles
-                                    </a>
+                                    </div>
                                 </li>
                             </ul>
                         </div>

@@ -1,3 +1,4 @@
+import { Link } from '@/shared/ui/Link'
 import React from 'react'
 
 export type TheFooterProps = {}
@@ -6,11 +7,11 @@ export const TheFooter: React.FC<TheFooterProps> = () => {
     return (
         <footer>
             <div className="container">
-                <a
+                <Link
                     href="/"
                     className="logo-font">
                     conduit
-                </a>
+                </Link>
                 <span className="attribution">
                     An interactive learning project from{' '}
                     <a href="https://thinkster.io">Thinkster</a>. Code &amp;

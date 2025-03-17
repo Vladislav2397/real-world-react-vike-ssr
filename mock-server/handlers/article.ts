@@ -12,9 +12,26 @@ export const articleHandlers = [
         const searchParams = new URLSearchParams(request.url)
 
         const tag = searchParams.get('tag')
+        const author = searchParams.get('author')
+        const favorited = searchParams.get('favorited')
 
         if (tag) {
             arr = arr.filter((article) => article.tagList.includes(tag))
+        }
+
+        if (author) {
+            arr = arr.filter(
+                (article) =>
+                    article.author.username.toLowerCase() ===
+                    author.toLowerCase()
+            )
+        }
+
+        if (favorited) {
+            return HttpResponse.json({
+                articles: [],
+                articlesCount: 0,
+            })
         }
 
         return HttpResponse.json({

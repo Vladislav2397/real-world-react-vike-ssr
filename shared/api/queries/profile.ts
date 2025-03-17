@@ -3,13 +3,11 @@ import {
     createJsonMutation,
     createJsonQuery,
     declareParams,
-    update,
 } from '@farfetched/core'
 import * as z from '@withease/contracts'
 import { baseURL } from '../config'
 import { $token } from '@/shared/lib/session-model'
 import urlcat from 'urlcat'
-import { getArticleQuery } from './articles'
 
 const getProfileResponseContract = z.obj({
     profile: z.obj({
@@ -39,9 +37,7 @@ export const followAuthorMutation = createJsonMutation({
     params: declareParams<{ username: string }>(),
     request: {
         url: ({ username }) =>
-            urlcat('http://localhost:4100/api/profiles/:username/follow', {
-                username,
-            }),
+            urlcat(baseURL('/profiles/:username/follow'), { username }),
         method: 'POST',
     },
     response: {
@@ -59,38 +55,5 @@ export const unfollowAuthorMutation = createJsonMutation({
     },
     response: {
         contract: getProfileResponseContract,
-    },
-})
-
-update(getArticleQuery, {
-    on: followAuthorMutation,
-    by: {
-        success: ({ mutation, query }) => ({
-            result: {
-                article: {
-                    ...query.result.article,
-                    author: {
-                        ...query.result.article.author,
-                        following: mutation.result.profile.following,
-                    },
-                },
-            },
-        }),
-    },
-})
-update(getArticleQuery, {
-    on: unfollowAuthorMutation,
-    by: {
-        success: ({ mutation, query }) => ({
-            result: {
-                article: {
-                    ...query.result.article,
-                    author: {
-                        ...query.result.article.author,
-                        following: mutation.result.profile.following,
-                    },
-                },
-            },
-        }),
     },
 })

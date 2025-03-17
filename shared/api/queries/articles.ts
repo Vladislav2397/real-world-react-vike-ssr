@@ -42,9 +42,14 @@ export const getArticleResponseContract = z.obj({
 })
 
 export const getArticleListQuery = createJsonQuery({
-    params: declareParams<{ tag?: string; tab?: string }>(),
+    params: declareParams<{
+        tag?: string
+        tab?: string
+        author?: string
+        favorited: string
+    }>(),
     request: {
-        url: ({ tab, tag }) => {
+        url: ({ tab, tag, author: username, favorited }) => {
             if (tab === 'self') {
                 return urlcat('http://localhost:4100/api/articles/feed', {
                     limit: 12,
@@ -55,7 +60,14 @@ export const getArticleListQuery = createJsonQuery({
             return urlcat('http://localhost:4100/api/articles', {
                 limit: 12,
                 offset: 0,
-                tag: tag ?? '',
+                tag: tag,
+                ...(favorited
+                    ? {
+                          favorited,
+                      }
+                    : {
+                          author: username,
+                      }),
             })
         },
         method: 'GET',
