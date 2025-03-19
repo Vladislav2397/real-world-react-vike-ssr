@@ -7,4 +7,4 @@ export async function data(pageContext: PageContextServer) {
         slug,
     }
 }
-export type Data = Awaited<ReturnType<typeof date>>
+export type Data = Awaited<ReturnType<typeof data>>

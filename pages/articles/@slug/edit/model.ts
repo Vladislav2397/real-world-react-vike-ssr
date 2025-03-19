@@ -3,6 +3,7 @@ import {
     getArticleQuery,
     updateArticleMutation,
 } from '@/shared/api/queries/articles'
+import { spread } from 'patronum'
 
 export const titleChanged = createEvent<string>()
 export const descriptionChanged = createEvent<string>()
@@ -32,6 +33,16 @@ const $fields = combine({
     slug: $slug,
 })
 
+sample({
+    clock: getArticleQuery.finished.success,
+    fn: ({ result }) => result.article,
+    target: spread({
+        title: $title,
+        description: $description,
+        body: $body,
+        tagList: $tags,
+    }),
+})
 sample({
     clock: updateButtonTriggered,
     source: $fields,
