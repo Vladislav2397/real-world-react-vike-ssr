@@ -1,11 +1,8 @@
 import React from 'react'
 import { useUnit } from 'effector-react'
 
-import { ToggleFollowAuthor } from '@/features/article/ToggleFollowAuthor'
-import { ToggleFavoriteArticle } from '@/features/article/ToggleFavoriteArticle'
-
 import { CommentView } from '@/entities/article/ui/CommentView'
-import { ArticleMeta } from '@/entities/article/ui/ArticleMeta'
+import { ArticleMeta } from '@/widgets/ArticleMeta'
 
 import * as model from './model'
 import { AddCommentForm } from '@/features/article/AddCommentForm'
@@ -17,25 +14,13 @@ const Page: React.FC = () => {
     if (!article) return null
     if (!comments) return null
 
-    const { author } = article
-
     return (
         <div className="article-page">
             <div className="banner">
                 <div className="container">
                     <h1>{article.title}</h1>
 
-                    <ArticleMeta article={article}>
-                        <ToggleFollowAuthor author={author} />
-                        &nbsp;&nbsp;
-                        <ToggleFavoriteArticle article={article} />
-                        {/* <button className="btn btn-sm btn-outline-secondary">
-                            <i className="ion-edit"></i> Edit Article
-                        </button>
-                        <button className="btn btn-sm btn-outline-danger">
-                            <i className="ion-trash-a"></i> Delete Article
-                        </button> */}
-                    </ArticleMeta>
+                    <ArticleMeta article={article} />
                 </div>
             </div>
 
@@ -58,17 +43,7 @@ const Page: React.FC = () => {
                 <hr />
 
                 <div className="article-actions">
-                    <ArticleMeta article={article}>
-                        <ToggleFollowAuthor author={author} />
-                        &nbsp;&nbsp;
-                        <ToggleFavoriteArticle article={article} />
-                        {/* <button className="btn btn-sm btn-outline-secondary">
-                            <i className="ion-edit"></i> Edit Article
-                        </button>
-                        <button className="btn btn-sm btn-outline-danger">
-                            <i className="ion-trash-a"></i> Delete Article
-                        </button> */}
-                    </ArticleMeta>
+                    <ArticleMeta article={article} />
                 </div>
 
                 <div className="row">

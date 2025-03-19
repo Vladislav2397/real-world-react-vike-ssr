@@ -203,6 +203,19 @@ export const updateArticleMutation = createJsonMutation({
 })
 export type UpdateArticleResponse = GetArticleResponse
 
+export const deleteArticleMutation = createJsonMutation({
+    params: declareParams<{ slug: string }>(),
+    request: {
+        url: ({ slug }) =>
+            urlcat('http://localhost:4100/api/articles/:slug', { slug }),
+        method: 'DELETE',
+    },
+    response: {
+        contract: z.anything,
+    },
+})
+export type deleteArticleMutationResponse = z.UnContract<typeof z.anything>
+
 export type CreateArticleCommentDto = {
     comment: {
         body: string

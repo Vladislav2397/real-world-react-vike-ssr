@@ -10,7 +10,7 @@ export type AddCommentFormProps = {
 }
 
 export const AddCommentForm: React.FC<AddCommentFormProps> = ({ article }) => {
-    const [isAuthorized] = useUnit([model.$isAuthorized])
+    const [isAuthorized, user] = useUnit([model.$isAuthorized, model.$user])
 
     if (!isAuthorized)
         return (
@@ -27,7 +27,7 @@ export const AddCommentForm: React.FC<AddCommentFormProps> = ({ article }) => {
             </div>
             <div className="card-footer">
                 <img
-                    src="http://i.imgur.com/Qr71crq.jpg"
+                    src={user.image ?? ''}
                     className="comment-author-img"
                 />
                 <AddCommentButton article={article} />

@@ -49,16 +49,18 @@ export const userHandlers = [
             },
         })
     }),
-    http.get('http://localhost:4100/api/profiles/:username', ({ params }) => {
-        const { username } = params
-
-        return HttpResponse.json({
-            profile: {
-                username: username,
-                bio: 'I work at statefarm',
-                image: 'https://avatar.iran.liara.run/public',
-                following: false,
+    http.get('http://localhost:4100/api/user', () => {
+        return HttpResponse.json(
+            {
+                user: {
+                    email: 'jake@statefarm',
+                    token: 'jwt.token.here',
+                    username: 'Admin',
+                    bio: 'I work at statefarm',
+                    image: 'https://avatar.iran.liara.run/public',
+                },
             },
-        })
+            { status: 200 }
+        )
     }),
 ]

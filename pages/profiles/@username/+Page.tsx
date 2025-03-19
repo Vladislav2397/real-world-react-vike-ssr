@@ -8,15 +8,16 @@ import type { Article } from '@/shared/api/types'
 import * as model from './model'
 
 const Page: React.FC = () => {
-    const [profile, articles, update] = useUnit([
+    const [profile, articles, isViewer, update] = useUnit([
         model.$profile,
         model.$articles,
+        model.$isViewer,
         model.updateQueryParams,
     ])
 
     if (!profile) return null
 
-    console.log(profile)
+    console.log('isViewer', isViewer)
 
     const renderArticle = (article: Article) => {
         return (

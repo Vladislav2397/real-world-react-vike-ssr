@@ -1,5 +1,6 @@
 import type {
     Article,
+    Author,
     CreateArticleCommentDto,
     CreateArticleDto,
 } from '@/shared/api/types'
@@ -152,12 +153,7 @@ export const articleHandlers = [
                     updatedAt: date,
                     favoritesCount: 2,
                     authorId: 1,
-                    author: {
-                        username: 'Admin',
-                        bio: 'lore ipsum dolor sit',
-                        image: 'https://avatar.iran.liara.run/public',
-                        following: false,
-                    },
+                    author: authors[0],
                     tagList: data.tagList ?? [],
                     favorited: false,
                 },
@@ -174,16 +170,11 @@ export const articleHandlers = [
 
             return HttpResponse.json({
                 comment: {
-                    id: 1,
+                    id: 2,
                     createdAt: date,
                     updatedAt: date,
                     body: data.comment.body,
-                    author: {
-                        username: 'jake',
-                        bio: 'I work at statefarm',
-                        image: 'https://i.stack.imgur.com/xHWG8.jpg',
-                        following: false,
-                    },
+                    author: authors[0],
                 },
             })
         }
@@ -205,6 +196,21 @@ export const articleHandlers = [
     ),
 ]
 
+const authors: Author[] = [
+    {
+        username: 'Admin',
+        bio: 'lore ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+        image: 'https://avatar.iran.liara.run/public',
+        following: false,
+    },
+    {
+        username: 'TestUser',
+        bio: 'dolore magna aliqua',
+        image: 'https://placehold.jp/150x150.png',
+        following: false,
+    },
+]
+
 const articles: Article[] = [
     {
         id: 1,
@@ -216,12 +222,7 @@ const articles: Article[] = [
         updatedAt: '2025-03-12T17:09:25.478Z',
         favoritesCount: 2,
         authorId: 1,
-        author: {
-            username: 'Admin',
-            bio: 'lore ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
-            image: 'https://avatar.iran.liara.run/public',
-            following: false,
-        },
+        author: authors[0],
         tagList: ['coffee'],
         favorited: false,
     },
@@ -235,12 +236,7 @@ const articles: Article[] = [
         updatedAt: '2025-03-12T17:09:25.478Z',
         favoritesCount: 1,
         authorId: 2,
-        author: {
-            username: 'TestUser',
-            bio: 'elit sed do e lore ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore',
-            image: 'https://avatar.iran.liara.run/public',
-            following: false,
-        },
+        author: authors[1],
         tagList: ['dragon'],
         favorited: false,
     },
@@ -254,12 +250,7 @@ const articles: Article[] = [
         updatedAt: '2025-03-12T17:09:25.478Z',
         favoritesCount: 0,
         authorId: 2,
-        author: {
-            username: 'TestUser',
-            bio: 'elit sed do e lore ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore',
-            image: 'https://avatar.iran.liara.run/public',
-            following: false,
-        },
+        author: authors[1],
         tagList: [],
         favorited: false,
     },
@@ -271,11 +262,6 @@ const comments = [
         createdAt: '2016-02-18T03:22:56.637Z',
         updatedAt: '2016-02-18T03:22:56.637Z',
         body: 'It takes a Jacobian',
-        author: {
-            username: 'jake',
-            bio: 'I work at statefarm',
-            image: 'https://i.stack.imgur.com/xHWG8.jpg',
-            following: false,
-        },
+        author: authors[1],
     },
 ]

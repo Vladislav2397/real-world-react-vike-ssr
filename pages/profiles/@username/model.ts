@@ -4,6 +4,7 @@ import { getArticleListQuery } from '@/shared/api/queries/articles'
 import { PageContextClient } from 'vike/types'
 import { Data } from './+data'
 import { navigate } from 'vike/client/router'
+import { viewerModel } from '@/entities/viewer'
 
 export const $pageContext = createStore<PageContextClient<Data>>(
     null as unknown as PageContextClient<Data>
@@ -26,6 +27,14 @@ export const $profile = combine(
 export const $articles = combine(
     getArticleListQuery.$data,
     (data) => data?.articles ?? []
+)
+
+export const $isViewer = combine(
+    viewerModel.$user,
+    $profile,
+    (user, profile) => {
+        return user?.username.toLowerCase() === profile?.username.toLowerCase()
+    }
 )
 
 sample({

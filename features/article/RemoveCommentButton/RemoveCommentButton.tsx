@@ -12,10 +12,14 @@ export const RemoveCommentButton: React.FC<RemoveCommentButtonProps> = ({
     article,
     comment,
 }) => {
-    const [remove] = useUnit([model.removeButtonTriggered])
+    const [user, remove] = useUnit([model.$user, model.removeButtonTriggered])
 
     const { slug } = article
     const { id } = comment
+
+    const isViewer = user?.username === comment.author.username
+
+    if (!isViewer) return null
 
     return (
         <span

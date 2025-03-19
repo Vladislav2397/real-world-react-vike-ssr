@@ -1,3 +1,4 @@
+import { appInitialized } from '@/app/model'
 import { allSettled, fork, serialize } from 'effector'
 import type { OnBeforeRenderAsync } from 'vike/types'
 
@@ -9,6 +10,7 @@ export const onBeforeRender: OnBeforeRenderAsync = async (
     const scope = fork()
 
     if (pageInitiated) {
+        await allSettled(appInitialized, { scope, params: pageContext })
         await allSettled(pageInitiated, { scope, params: pageContext })
     }
 

@@ -3,6 +3,7 @@ import { Link } from '@/shared/ui/Link'
 import { routes } from '@/shared/routing'
 import * as sessionModel from '@/shared/lib/session-model'
 import { useUnit } from 'effector-react'
+import * as model from './model'
 
 const userRoutes: Item[] = [
     {
@@ -117,13 +118,14 @@ const Unauthorized: React.FC = () => {
 }
 
 const Authorized: React.FC = () => {
+    const [user] = useUnit([model.$user])
     const list: Item[] = [
         ...userRoutes,
         {
-            route: routes.profile.replace(':username', 'admin'),
+            route: routes.profile.replace(':username', user.username),
             kind: 'with-image',
-            src: '',
-            text: 'Eric Simons',
+            src: user.image ?? '',
+            text: user.username ?? 'undefined',
         },
     ]
 

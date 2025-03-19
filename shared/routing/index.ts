@@ -4,7 +4,7 @@ export const routes = {
     signUp: '/sign-up',
     article: '/articles/:slug',
     createArticle: '/articles/create',
-    editArticle: '/articles/:id/edit',
+    editArticle: '/articles/:slug/edit',
     profile: '/profiles/:username',
     settings: '/settings',
 }
