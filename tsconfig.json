@@ -12,39 +12,18 @@
         "noEmit": true,
         "moduleResolution": "Bundler",
         "paths": {
-            "@assets/*": [
-                "./assets/*"
-            ],
-            "@layouts/*": [
-                "./layouts/*"
-            ],
-            "@services/*": [
-                "./services/*"
-            ],
-            "@styles/*": [
-                "./styles/*"
-            ],
-            "@utils/*": [
-                "./utils/*"
-            ],
-            "@/*": [
-                "./*"
-            ]
+            "@assets/*": ["./assets/*"],
+            "@layouts/*": ["./layouts/*"],
+            "@services/*": ["./services/*"],
+            "@styles/*": ["./styles/*"],
+            "@utils/*": ["./utils/*"],
+            "@/*": ["./*"]
         },
         "target": "ES2022",
-        "lib": [
-            "DOM",
-            "DOM.Iterable",
-            "ESNext"
-        ],
-        "types": [
-            "vite/client",
-            "vike-react"
-        ],
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "types": ["vite/client", "vike-react"],
         "jsx": "preserve",
         "jsxImportSource": "react"
     },
-    "exclude": [
-        "dist"
-    ]
+    "exclude": ["dist"]
 }

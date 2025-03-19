@@ -1,71 +1,71 @@
 {
-  "name": "vike-react-effector",
-  "version": "0.0.1",
-  "description": "",
-  "type": "module",
-  "scripts": {
-    "dev": "tsx ./express-entry.ts",
-    "build": "vike build",
-    "start": "npm run build && cross-env NODE_ENV=production tsx ./express-entry.ts",
-    "lint": "eslint ."
-  },
-  "keywords": [],
-  "author": "",
-  "dependencies": {
-    "@farfetched/core": "^0.13.1",
-    "@tanstack/react-query": "^5.68.0",
-    "@withease/contracts": "^1.1.0",
-    "axios": "^1.8.3",
-    "clsx": "^2.1.1",
-    "compression": "^1.8.0",
-    "cookie-parser": "^1.4.7",
-    "cross-fetch": "^4.1.0",
-    "dayjs": "^1.11.13",
-    "dotenv": "^16.4.7",
-    "effector": "^23.3.0",
-    "effector-react": "^23.3.0",
-    "effector-storage": "^7.1.0",
-    "efx-forms": "^2.0.28",
-    "express": "^5.0.1",
-    "express-http-proxy": "^2.1.1",
-    "lodash": "^4.17.21",
-    "patronum": "^2.3.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "telefunc": "^0.1.87",
-    "urlcat": "^3.1.0"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.22.0",
-    "@types/compression": "^1.7.5",
-    "@types/cookie-parser": "^1.4.8",
-    "@types/express": "^5.0.0",
-    "@types/express-http-proxy": "^1.6.6",
-    "@types/react": "^18.3.18",
-    "@types/react-dom": "^18.3.5",
-    "@vitejs/plugin-react": "^4.3.4",
-    "cross-env": "^7.0.3",
-    "eslint": "^9.22.0",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-prettier": "^5.2.3",
-    "eslint-plugin-react": "^7.37.4",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
-    "globals": "^16.0.0",
-    "msw": "^2.7.3",
-    "prettier": "^3.5.3",
-    "tsx": "^4.19.3",
-    "typescript": "^5.8.2",
-    "typescript-eslint": "^8.26.0",
-    "vike": "^0.4.224",
-    "vike-react": "^0.5.13",
-    "vite": "^6.2.1"
-  },
-  "overrides": {
-    "esbuild": "^0.25.0"
-  },
-  "msw": {
-    "workerDirectory": [
-      "public"
-    ]
-  }
+    "name": "vike-react-effector",
+    "version": "0.0.1",
+    "description": "",
+    "type": "module",
+    "scripts": {
+        "dev": "tsx ./express-entry.ts",
+        "build": "vike build",
+        "start": "npm run build && cross-env NODE_ENV=production tsx ./express-entry.ts",
+        "lint": "eslint ."
+    },
+    "keywords": [],
+    "author": "",
+    "dependencies": {
+        "@farfetched/core": "^0.13.1",
+        "@tanstack/react-query": "^5.68.0",
+        "@withease/contracts": "^1.1.0",
+        "axios": "^1.8.3",
+        "clsx": "^2.1.1",
+        "compression": "^1.8.0",
+        "cookie-parser": "^1.4.7",
+        "cross-fetch": "^4.1.0",
+        "dayjs": "^1.11.13",
+        "dotenv": "^16.4.7",
+        "effector": "^23.3.0",
+        "effector-react": "^23.3.0",
+        "effector-storage": "^7.1.0",
+        "efx-forms": "^2.0.28",
+        "express": "^5.0.1",
+        "express-http-proxy": "^2.1.1",
+        "lodash": "^4.17.21",
+        "patronum": "^2.3.0",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "telefunc": "^0.1.87",
+        "urlcat": "^3.1.0"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.22.0",
+        "@types/compression": "^1.7.5",
+        "@types/cookie-parser": "^1.4.8",
+        "@types/express": "^5.0.0",
+        "@types/express-http-proxy": "^1.6.6",
+        "@types/react": "^18.3.18",
+        "@types/react-dom": "^18.3.5",
+        "@vitejs/plugin-react": "^4.3.4",
+        "cross-env": "^7.0.3",
+        "eslint": "^9.22.0",
+        "eslint-config-prettier": "^10.1.1",
+        "eslint-plugin-prettier": "^5.2.3",
+        "eslint-plugin-react": "^7.37.4",
+        "eslint-plugin-simple-import-sort": "^12.1.1",
+        "globals": "^16.0.0",
+        "msw": "^2.7.3",
+        "prettier": "^3.5.3",
+        "tsx": "^4.19.3",
+        "typescript": "^5.8.2",
+        "typescript-eslint": "^8.26.0",
+        "vike": "^0.4.224",
+        "vike-react": "^0.5.13",
+        "vite": "^6.2.1"
+    },
+    "overrides": {
+        "esbuild": "^0.25.0"
+    },
+    "msw": {
+        "workerDirectory": [
+            "public"
+        ]
+    }
 }

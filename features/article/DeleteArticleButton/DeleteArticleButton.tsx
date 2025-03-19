@@ -15,7 +15,9 @@ export const DeleteArticleButton: React.FC<DeleteArticleButtonProps> = ({
     const onClick = () => remove(article)
 
     return (
-        <button className="btn btn-sm btn-outline-danger">
+        <button
+            className="btn btn-sm btn-outline-danger"
+            onClick={onClick}>
             <i className="ion-trash-a"></i> Delete Article
         </button>
     )

@@ -10,7 +10,7 @@ export function delay(ms = 1000) {
 }
 
 export const config: SharedOptions = {
-    onUnhandledRequest: (request, print) => {
+    onUnhandledRequest: (_request, _print) => {
         return
     },
 }

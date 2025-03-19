@@ -1,5 +1,6 @@
 import { createJsonMutation, declareParams } from '@farfetched/core'
 import * as z from '@withease/contracts'
+import { baseURL } from '../config'
 
 const signUpResponseContract = z.obj({
     user: z.obj({
@@ -14,7 +15,7 @@ const signUpResponseContract = z.obj({
 export const signUpMutation = createJsonMutation({
     params: declareParams<SignUpDto>(),
     request: {
-        url: `${import.meta.env.API_HOST}/api/users`,
+        url: baseURL('/users'),
         method: 'POST',
         body: (params) => params,
     },
@@ -35,7 +36,7 @@ export const signInResponseFailureContract = z.obj({
 export const signInMutation = createJsonMutation({
     params: declareParams<SignInDto>(),
     request: {
-        url: `${import.meta.env.API_HOST}/api/users/login`,
+        url: baseURL('/users/login'),
         method: 'POST',
         body: (params) => params,
     },

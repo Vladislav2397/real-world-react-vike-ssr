@@ -46,7 +46,7 @@ export const getArticleListQuery = createJsonQuery({
         tag?: string
         tab?: string
         author?: string
-        favorited: string
+        favorited?: string
     }>(),
     request: {
         url: ({ tab, tag, author: username, favorited }) => {
