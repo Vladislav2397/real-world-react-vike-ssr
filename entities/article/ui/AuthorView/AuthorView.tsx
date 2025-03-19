@@ -1,7 +1,8 @@
-import type { Author } from '@/shared/api/types'
+import React from 'react'
+
+import type { Author } from '@/shared/api/queries/articles'
 import { routes } from '@/shared/routing'
 import { Link } from '@/shared/ui/Link'
-import React from 'react'
 
 export type AuthorViewProps = {
     author: Author

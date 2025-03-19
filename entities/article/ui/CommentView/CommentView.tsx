@@ -1,6 +1,6 @@
 import React from 'react'
 import { AuthorView } from '../AuthorView'
-import { Comment } from '@/shared/api/types'
+import type { Comment } from '@/shared/api/queries/articles'
 
 export type CommentViewProps = { comment: Comment }
 
